@@ -1,0 +1,7 @@
+*.pyc
+.*swp
+*~
+.idea/
+.tox/
+dist/
+*.egg-info/

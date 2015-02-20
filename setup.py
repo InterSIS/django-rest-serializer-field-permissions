@@ -10,10 +10,10 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 setup(
     name='django-rest-encrypted-lookup',
     version='0.1',
-    packages=['rest_framework_model_field_permissions'],
+    packages=['rest_framework_serializer_field_permissions'],
     include_package_data=True,
     license='GNU General Public License v3 (GPLv3)',
-    description='By model-field permissions for Django Rest Framework.',
+    description='Field-by-field serializer permissions for Django Rest Framework.',
     long_description=README,
     url='https://intersis.org/',
     author='The Intersis Foundation',

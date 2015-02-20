@@ -1,5 +1,5 @@
-[![Downloads](https://pypip.in/download/django-rest-model-field-permissions/badge.svg)](https://pypi.python.org/pypi/django-rest-model-field-permissions/)
-django-rest-model-field-permissions
+[![Downloads](https://pypip.in/download/django-rest-serializer-field-permissions/badge.svg)](https://pypi.python.org/pypi/django-rest-serializer-field-permissions/)
+django-rest-serializer-field-permissions
 =============
 
 Add permission classes to your serializer fields that look like this:
@@ -12,7 +12,7 @@ Add permission classes to your serializer fields that look like this:
 
 ```
 
-This package is **unstable**. It is in **alpha**. It basically works for me. I am actively towards a beta release.
+This package is **unstable**. It is in **alpha**. It basically works for me. I am actively working towards a beta release.
 
 Installation
 ===============

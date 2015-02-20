@@ -8,7 +8,7 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name='django-rest-encrypted-lookup',
+    name='django-rest-serializer-field-permissions',
     version='0.1',
     packages=['rest_framework_serializer_field_permissions'],
     include_package_data=True,

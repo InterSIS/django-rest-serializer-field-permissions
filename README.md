@@ -1,4 +1,5 @@
 [![Downloads](https://pypip.in/download/django-rest-serializer-field-permissions/badge.svg)](https://pypi.python.org/pypi/django-rest-serializer-field-permissions/)
+
 django-rest-serializer-field-permissions
 =============
 
@@ -12,7 +13,9 @@ Add permission classes to your serializer fields that look like this:
 
 ```
 
-This package is **unstable**. It is in **alpha**. It basically works for me. I am actively working towards a beta release.
+This package is **unstable**. It is in **alpha**. Test coverage is **incomplete**. It basically works for me.
+
+I am actively working towards a beta release.
 
 Installation
 ===============
@@ -78,9 +81,11 @@ permissions against the request, and scrubs from the return any fields which fai
 Compatibility
 =============
 
-* Django Rest Framework 3
-* Django 1.6, 1.7
-* Python 2.7, 3.4
+* Django Rest Framework 3.0
+* Django 1.6, 1.7, 1.8
+* Python 2.7, 3.3, 3.4
+
+See tox.ini for specific minor versions tested.
 
 Additional Requirements
 =======================
@@ -90,7 +95,8 @@ None
 Todo
 ====
 
-* Tests
+* Serializer tests
+* Integration tests
 
 Getting Involved
 ================

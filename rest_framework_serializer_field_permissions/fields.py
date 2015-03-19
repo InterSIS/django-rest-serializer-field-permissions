@@ -4,9 +4,10 @@ from rest_framework import fields
 class PermissionMixin(object):
 
     def __init__(self, *args, **kwargs):
+        permission_classes = kwargs.pop("permission_classes", ())
 
         super(PermissionMixin, self).__init__(*args, **kwargs)
-        self.permission_classes = kwargs.get("permission_classes", ())
+        self.permission_classes = permission_classes
 
     def check_permission(self, request):
         return all((permission.has_permission(request) for permission in self.permission_classes))

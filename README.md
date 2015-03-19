@@ -1,4 +1,5 @@
 [![Downloads](https://pypip.in/download/django-rest-serializer-field-permissions/badge.svg)](https://pypi.python.org/pypi/django-rest-serializer-field-permissions/)
+[![Build Status](https://travis-ci.org/InterSIS/django-rest-serializer-field-permissions.svg?branch=master)](https://travis-ci.org/InterSIS/django-rest-serializer-field-permissions)
 
 django-rest-serializer-field-permissions
 =============

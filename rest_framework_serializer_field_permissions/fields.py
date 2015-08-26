@@ -1,8 +1,10 @@
+import copy
+import inspect
 from rest_framework import fields
+from rest_framework.serializers import LIST_SERIALIZER_KWARGS, ListSerializer
 
 
 class PermissionMixin(object):
-
     def __init__(self, *args, **kwargs):
         permission_classes = kwargs.pop("permission_classes", ())
 
@@ -11,6 +13,35 @@ class PermissionMixin(object):
 
     def check_permission(self, request):
         return all((permission.has_permission(request) for permission in self.permission_classes))
+
+
+class _PermissionListSerializer(ListSerializer):
+    def __init__(self, *args, **kwargs):
+        self.child = kwargs.pop('child', copy.deepcopy(self.child))
+
+        self.permission_classes = self.child.permission_classes
+        self.check_permission = self.child.check_permission
+
+        self.allow_empty = kwargs.pop('allow_empty', True)
+
+        assert self.child is not None, '`child` is a required argument.'
+        assert not inspect.isclass(self.child), '`child` has not been instantiated.'
+
+        super(ListSerializer, self).__init__(*args, **kwargs)
+
+        self.child.bind(field_name='', parent=self)
+
+
+class SerializerPermissionMixin(PermissionMixin):
+    @classmethod
+    def many_init(cls, *args, **kwargs):
+        child_serializer = cls(*args, **kwargs)
+        list_kwargs = {'child': child_serializer}
+        list_kwargs.update(dict([
+                                    (key, value) for key, value in kwargs.items()
+                                    if key in LIST_SERIALIZER_KWARGS
+                                    ]))
+        return _PermissionListSerializer(*args, **list_kwargs)
 
 
 class BooleanField(PermissionMixin, fields.BooleanField):
@@ -99,19 +130,3 @@ class ModelField(PermissionMixin, fields.ModelField):
 
 class SerializerMethodField(PermissionMixin, fields.SerializerMethodField):
     pass
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

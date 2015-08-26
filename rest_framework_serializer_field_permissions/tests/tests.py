@@ -5,7 +5,7 @@ from django.test import TestCase
 from rest_framework import serializers
 
 from rest_framework_serializer_field_permissions.permissions import AllowAny, AllowNone, IsAuthenticated
-from rest_framework_serializer_field_permissions.fields import BooleanField, PermissionMixin
+from rest_framework_serializer_field_permissions.fields import BooleanField, SerializerPermissionMixin
 from rest_framework_serializer_field_permissions.serializers import FieldPermissionSerializerMixin
 from test_app.models import Album, Track
 
@@ -77,7 +77,7 @@ class FieldTests(TestCase):
         self.assertTrue(field.check_permission({}))
 
 
-class TrackSerializer(PermissionMixin, serializers.ModelSerializer):
+class TrackSerializer(SerializerPermissionMixin, serializers.ModelSerializer):
     class Meta:
         model = Track
         fields = ('order', 'title')

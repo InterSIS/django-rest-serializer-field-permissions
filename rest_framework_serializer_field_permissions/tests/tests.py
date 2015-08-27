@@ -93,6 +93,16 @@ class SerializerFieldTests(TestCase):
                              title='Public Service Announcement',
                              duration=245)
 
+    def get_album_serializer(self, _tracks):
+        class AlbumSerializer(FieldPermissionSerializerMixin, serializers.ModelSerializer):
+            tracks = _tracks
+
+            class Meta:
+                model = Album
+                fields = ('album_name', 'artist', 'tracks')
+
+        return AlbumSerializer
+
     def test_many_false_serializer_field(self):
         field = TrackSerializer(permission_classes=(AllowNone(),))
         self.assertFalse(field.check_permission({}))
@@ -103,25 +113,15 @@ class SerializerFieldTests(TestCase):
         self.assertFalse(field.check_permission({}))
 
     def test_many_false_serializer_field_removed(self):
-        class AlbumSerializer(FieldPermissionSerializerMixin, serializers.ModelSerializer):
-            tracks = TrackSerializer(permission_classes=(AllowNone(),))
+        tracks = TrackSerializer(permission_classes=(AllowNone(),))
 
-            class Meta:
-                model = Album
-                fields = ('album_name', 'artist', 'tracks')
-
-        album_serializer = AlbumSerializer(instance=self.album, context={'request': {}})
+        album_serializer = self.get_album_serializer(tracks)(instance=self.album, context={'request': {}})
 
         self.assertFalse('tracks' in album_serializer.data)
 
     def test_many_true_serializer_field_removed(self):
-        class AlbumSerializer(FieldPermissionSerializerMixin, serializers.ModelSerializer):
-            tracks = TrackSerializer(permission_classes=(AllowNone(),), many=True)
+        tracks = TrackSerializer(permission_classes=(AllowNone(),), many=True)
 
-            class Meta:
-                model = Album
-                fields = ('album_name', 'artist', 'tracks')
-
-        album_serializer = AlbumSerializer(instance=self.album, context={'request': {}})
+        album_serializer = self.get_album_serializer(tracks)(instance=self.album, context={'request': {}})
 
         self.assertFalse('tracks' in album_serializer.data)

@@ -15,24 +15,23 @@ class PermissionMixin(object):
         return all((permission.has_permission(request) for permission in self.permission_classes))
 
 
-class _PermissionListSerializer(ListSerializer):
-    def __init__(self, *args, **kwargs):
-        self.child = kwargs.pop('child', copy.deepcopy(self.child))
-
-        self.permission_classes = self.child.permission_classes
-        self.check_permission = self.child.check_permission
-
-        self.allow_empty = kwargs.pop('allow_empty', True)
-
-        assert self.child is not None, '`child` is a required argument.'
-        assert not inspect.isclass(self.child), '`child` has not been instantiated.'
-
-        super(ListSerializer, self).__init__(*args, **kwargs)
-
-        self.child.bind(field_name='', parent=self)
-
-
 class SerializerPermissionMixin(PermissionMixin):
+    class PermissionListSerializer(ListSerializer):
+        def __init__(self, *args, **kwargs):
+            self.child = kwargs.pop('child', copy.deepcopy(self.child))
+
+            self.permission_classes = self.child.permission_classes
+            self.check_permission = self.child.check_permission
+
+            self.allow_empty = kwargs.pop('allow_empty', True)
+
+            assert self.child is not None, '`child` is a required argument.'
+            assert not inspect.isclass(self.child), '`child` has not been instantiated.'
+
+            super(ListSerializer, self).__init__(*args, **kwargs)
+
+            self.child.bind(field_name='', parent=self)
+
     @classmethod
     def many_init(cls, *args, **kwargs):
         child_serializer = cls(*args, **kwargs)
@@ -41,7 +40,7 @@ class SerializerPermissionMixin(PermissionMixin):
                                     (key, value) for key, value in kwargs.items()
                                     if key in LIST_SERIALIZER_KWARGS
                                     ]))
-        return _PermissionListSerializer(*args, **list_kwargs)
+        return SerializerPermissionMixin.PermissionListSerializer(*args, **list_kwargs)
 
 
 class BooleanField(PermissionMixin, fields.BooleanField):

@@ -62,8 +62,8 @@ Any pagination-capable viewset with which you wish to include permission-capable
   
   from rest_framework_serializer_field_permissions.serializers import FieldPermissionSerializerMixin
   
-  from rest_
-  class InterSISEncryptedLookupGenericViewset(viewsets.GenericViewSet):
+
+  class MyViewset(viewsets.GenericViewSet):
       pagination_serializer_class = ContextPassingPaginationSerializer
 ```
 

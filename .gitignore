@@ -5,5 +5,5 @@
 .tox/
 dist/
 *.egg-info/
-.idea/
+.coverage
 

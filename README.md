@@ -6,19 +6,21 @@
 django-rest-serializer-field-permissions
 =============
 
-Add permission classes to your serializer fields that look like this:
+Add field-by-field permission classes to your serializer fields that look like this:
 
 ```
   class PersonSerializer(FieldPermissionSerializerMixin, LookupModelSerializer):
 
+      // Only allow authenticated users to retrieve family and given names
       family_names = serializers.CharField(permission_classes=(IsAuthenticated(), ))
       given_names = serializers.CharField(permission_classes=(IsAuthenticated(), ))
+      
+      // Allow all users to retrieve nick name
+      nick_name = serializers.CharField(permission_classes=(AllowAll(), ))
 
 ```
 
-This package is **unstable**. It is in **alpha**. Test coverage is **incomplete**. It basically works for me.
-
-I am actively working towards a beta release.
+Define your own permission classes as a function of any request variable.
 
 Installation
 ===============

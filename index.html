@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Django-rest-serializer-field-permissions by InterSIS</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Django-rest-serializer-field-permissions</h1>
+        <p class="header">Field-by-field serializer permissions for Django Rest Framework.</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/InterSIS/django-rest-serializer-field-permissions/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/InterSIS/django-rest-serializer-field-permissions/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/InterSIS/django-rest-serializer-field-permissions">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/InterSIS">InterSIS</a></p>
+
+
+      </header>
+      <section>
+        <p><a href="https://travis-ci.org/InterSIS/django-rest-serializer-field-permissions"><img src="https://travis-ci.org/InterSIS/django-rest-serializer-field-permissions.svg?branch=master" alt="Build Status"></a>
+<a href="https://codeclimate.com/github/InterSIS/django-rest-serializer-field-permissions"><img src="https://codeclimate.com/github/InterSIS/django-rest-serializer-field-permissions/badges/gpa.svg" alt="Code Climate"></a>
+<a href="https://coveralls.io/github/InterSIS/django-rest-serializer-field-permissions?branch=master"><img src="https://coveralls.io/repos/InterSIS/django-rest-serializer-field-permissions/badge.svg?branch=master&amp;service=github" alt="Coverage Status"></a>
+<a href="http://badge.fury.io/py/django-rest-serializer-field-permissions"><img src="https://badge.fury.io/py/django-rest-serializer-field-permissions.svg" alt="PyPI version"></a></p>
+
+<h1>
+<a id="django-rest-serializer-field-permissions" class="anchor" href="#django-rest-serializer-field-permissions" aria-hidden="true"><span class="octicon octicon-link"></span></a>django-rest-serializer-field-permissions</h1>
+
+<p>Add field-by-field permission classes to your serializer fields that look like this:</p>
+
+<pre><code>  class PersonSerializer(FieldPermissionSerializerMixin, LookupModelSerializer):
+
+      // Only allow authenticated users to retrieve family and given names
+      family_names = serializers.CharField(permission_classes=(IsAuthenticated(), ))
+      given_names = serializers.CharField(permission_classes=(IsAuthenticated(), ))
+
+      // Allow all users to retrieve nick name
+      nick_name = serializers.CharField(permission_classes=(AllowAll(), ))
+
+</code></pre>
+
+<p>Define your own permission classes as a function of any request variable.</p>
+
+<h1>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h1>
+
+<p>Install the module in your Python distribution or virtualenv:</p>
+
+<pre><code>$ pip install django-rest-serializer-field-permissions
+</code></pre>
+
+<p>Add the application to your <code>INSTALLED_APPS</code>:</p>
+
+<pre><code>  INSTALLED_APPS = (
+  ...
+  "rest_framework_serializer_field_permissions",
+  ...
+  )
+</code></pre>
+
+<h1>
+<a id="use" class="anchor" href="#use" aria-hidden="true"><span class="octicon octicon-link"></span></a>Use</h1>
+
+<p>In your serializers, mix <code>FieldPermissionSerializerMixin</code> into your serializer classes, as the left-most parent. The fields
+provided by <code>rest_framework_serializer_field_permissions.fields</code> accept <code>permission_classes</code> which operate in typical
+DRF fashion:</p>
+
+<pre><code>  from rest_framework import serializers
+
+  from rest_framework_serializer_field_permissions import fields
+  from rest_framework_serializer_field_permissions.serializers import FieldPermissionSerializerMixin
+  from rest_framework_serializer_field_permissions.permissions import IsAuthenticated
+
+  class PersonSerializer(FieldPermissionSerializerMixin, serializers.ModelSerializer):
+
+      family_names = fields.CharField(permission_classes=(IsAuthenticated(), ))
+      given_names = fields.CharField(permission_classes=(IsAuthenticated(), ))
+
+</code></pre>
+
+<p>Any pagination-capable viewset with which you wish to include permission-capable fields must use the
+<code>ContextPassingPaginationSerializer</code> provided by <code>rest_framework_serializer_field_permissions.serializers</code>.</p>
+
+<pre><code>  from rest_framework import viewsets
+
+  from rest_framework_serializer_field_permissions.serializers import FieldPermissionSerializerMixin
+
+
+  class MyViewset(viewsets.GenericViewSet):
+      pagination_serializer_class = ContextPassingPaginationSerializer
+</code></pre>
+
+<p>The <code>FieldPermissionSerializerMixin</code> may be mixed with any DRF serializer class, not just <code>ModelSerializer</code>. Similarly,
+the <code>ContextPassingPaginationSerializer</code> may be used with any pagination-capable viewset, not just <code>GenericViewSet</code>.</p>
+
+<p>You can write your own permission classes by sub-classing <code>BaseFieldPermission</code> in <code>permissions.py</code>.</p>
+
+<h1>
+<a id="how-it-works" class="anchor" href="#how-it-works" aria-hidden="true"><span class="octicon octicon-link"></span></a>How it Works</h1>
+
+<p>The <code>FieldPermissionSerializerMixin</code> provides its own <code>fields</code> property, which DRF serializers call to get a list
+of their own fields. The amended <code>fields</code> property checks for permission-bearing fields, forces them to check their
+permissions against the request, and scrubs from the return any fields which fail their permission checks.</p>
+
+<h1>
+<a id="compatibility" class="anchor" href="#compatibility" aria-hidden="true"><span class="octicon octicon-link"></span></a>Compatibility</h1>
+
+<ul>
+<li>Django Rest Framework 3.0</li>
+<li>Django 1.6, 1.7, 1.8</li>
+<li>Python 2.7, 3.3, 3.4</li>
+</ul>
+
+<p>See tox.ini for specific minor versions tested.</p>
+
+<h1>
+<a id="additional-requirements" class="anchor" href="#additional-requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Additional Requirements</h1>
+
+<p>None</p>
+
+<h1>
+<a id="todo" class="anchor" href="#todo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Todo</h1>
+
+<ul>
+<li>Serializer tests</li>
+<li>Integration tests</li>
+</ul>
+
+<h1>
+<a id="getting-involved" class="anchor" href="#getting-involved" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Involved</h1>
+
+<p>Feel free to open pull requests or issues. GitHub is the canonical location of this project.</p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>

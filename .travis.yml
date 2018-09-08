@@ -1,20 +1,17 @@
 language: python
 
-python:
-    - "2.7"
-    - "3.7"
-
 sudo: false
 
-env:
-
-    - TOX_ENV=py27-django1.11-drf3.8
-    - TOX_ENV=py37-django1.11-drf3.8
-    - TOX_ENV=py37-django2.1-drf3.8
-    - TOX_ENV=lint
-    - TOX_ENV=coveralls
-
 matrix:
+  include:
+      - python: 2.7
+        env:
+            - TOX_ENV=py27-django1.11-drf3.8
+      - python: 3.7
+            - TOX_ENV=py37-django1.11-drf3.8
+            - TOX_ENV=py37-django2.1-drf3.8
+            - TOX_ENV=lint
+            - TOX_ENV=coveralls
   fast_finish: true
 
 install:

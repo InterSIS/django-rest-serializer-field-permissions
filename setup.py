@@ -20,7 +20,7 @@ setup(
     author_email='dev@intersis.org',
     install_requires=[
         'django>=1.6',
-        'djangorestframework>=3.0.0, <3.0.5',
+        'djangorestframework>=3.0.0, <=3.8',
     ],
     classifiers=[
         'Development Status :: 3 - Alpha',

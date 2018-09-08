@@ -4,18 +4,18 @@ sudo: false
 
 matrix:
   include:
-      - python: 2.7
-        env:
-            - TOX_ENV=py27-django1.11-drf3.8
-      - python: 3.7
-            - TOX_ENV=py37-django1.11-drf3.8
-            - TOX_ENV=py37-django2.1-drf3.8
-            - TOX_ENV=lint
-            - TOX_ENV=coveralls
+    - python: 2.7
+      env:
+        - TOX_ENV=py27-django1.11-drf3.8
+    - python: 3.7
+        - TOX_ENV=py37-django1.11-drf3.8
+        - TOX_ENV=py37-django2.1-drf3.8
+        - TOX_ENV=lint
+        - TOX_ENV=coveralls
   fast_finish: true
 
 install:
   - pip install tox
 
 script:
-    - tox -e $TOX_ENV
+  - tox -e $TOX_ENV

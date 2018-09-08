@@ -6,7 +6,6 @@ env:
 
     - TOX_ENV=py27-django1.11-drf3.8
     - TOX_ENV=py37-django1.11-drf3.8
-    - TOX_ENV=py27-django2.1-drf3.8
     - TOX_ENV=py37-django2.1-drf3.8
     - TOX_ENV=lint
     - TOX_ENV=coveralls

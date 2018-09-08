@@ -10,8 +10,14 @@ matrix:
     - python: 3.7
       env:
         - TOX_ENV=py37-django1.11-drf3.8
+    - python: 3.7
+      env:
         - TOX_ENV=py37-django2.1-drf3.8
+    - python: 3.7
+      env:
         - TOX_ENV=lint
+    - python: 3.7
+      env:
         - TOX_ENV=coveralls
   fast_finish: true
 

@@ -24,11 +24,11 @@ class PermissionTests(TestCase):
     def test_is_authenticated(self):
         permission = IsAuthenticated()
 
-        authenticated_user = Namespace(is_authenticated=lambda: True)
+        authenticated_user = Namespace(is_authenticated=True)
         authenticated_request = Namespace(user=authenticated_user)
         self.assertTrue(permission.has_permission(authenticated_request))
 
-        unauthenticated_user = Namespace(is_authenticated=lambda: False)
+        unauthenticated_user = Namespace(is_authenticated=False)
         unauthenticated_request = Namespace(user=unauthenticated_user)
         self.assertFalse(permission.has_permission(unauthenticated_request))
 
@@ -51,11 +51,11 @@ class FieldTests(TestCase):
         self.assertFalse(field.check_permission({}))
 
         field = BooleanField(permission_classes=(IsAuthenticated(),))
-        authenticated_user = Namespace(is_authenticated=lambda: True)
+        authenticated_user = Namespace(is_authenticated=True)
         authenticated_request = Namespace(user=authenticated_user)
         self.assertTrue(field.check_permission(authenticated_request))
 
-        unauthenticated_user = Namespace(is_authenticated=lambda: False)
+        unauthenticated_user = Namespace(is_authenticated=False)
         unauthenticated_request = Namespace(user=unauthenticated_user)
         self.assertFalse(field.check_permission(unauthenticated_request))
 

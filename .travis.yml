@@ -2,27 +2,27 @@ language: python
 
 sudo: false
 
-env:
-
-    - TOX_ENV=py27-django1.7-drf3.1.0
-    - TOX_ENV=py27-django1.7-drf3.2.3
-    - TOX_ENV=py27-django1.8-drf3.1.0
-    - TOX_ENV=py27-django1.8-drf3.2.3
-    - TOX_ENV=py34-django1.7-drf3.1.0
-    - TOX_ENV=py34-django1.7-drf3.2.3
-    - TOX_ENV=py34-django1.8-drf3.1.0
-    - TOX_ENV=py34-django1.8-drf3.2.3
-    - TOX_ENV=py33-django1.8-drf3.2.3
-    - TOX_ENV=py34-django1.6-drf3.2.3
-    - TOX_ENV=py34-django1.8-drf3.0.5
-    - TOX_ENV=lint
-    - TOX_ENV=coveralls
-
 matrix:
+  include:
+    - python: 2.7
+      env:
+        - TOX_ENV=py27-django1.11-drf3.8
+    - python: 3.7
+      env:
+        - TOX_ENV=py37-django1.11-drf3.8
+    - python: 3.7
+      env:
+        - TOX_ENV=py37-django2.1-drf3.8
+    - python: 3.7
+      env:
+        - TOX_ENV=lint
+    - python: 3.7
+      env:
+        - TOX_ENV=coveralls
   fast_finish: true
 
 install:
   - pip install tox
 
 script:
-    - tox -e $TOX_ENV
+  - tox -e $TOX_ENV

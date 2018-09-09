@@ -22,8 +22,11 @@ class FieldPermissionSerializerMixin(object):
         ret = super(FieldPermissionSerializerMixin, self).fields
         request = self._context["request"]
 
-        for field_name, field in ret.items():
-            if hasattr(field, 'check_permission') and (not field.check_permission(request)):
-                ret.pop(field_name)
+        forbidden_field_names = [
+            field_name for field_name, field in ret.items() if hasattr(field, 'check_permission') and (not field.check_permission(request))
+        ]
+
+        for field_name in forbidden_field_names:
+            ret.pop(field_name)
 
         return ret

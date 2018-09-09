@@ -10,4 +10,4 @@ class Track(models.Model):
     duration = models.IntegerField()
     order = models.TextField()
     title = models.TextField()
-    album = models.ForeignKey(to=Album, related_name='tracks')
+    album = models.ForeignKey(to=Album, related_name='tracks', on_delete=models.CASCADE)

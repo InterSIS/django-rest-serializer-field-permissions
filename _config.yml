@@ -2,7 +2,7 @@ title: Django-rest-serializer-field-permissions
 description: Field-by-field serializer permissions for Django Rest Framework.
 google_analytics: 
 show_downloads: true
-theme: jekyll-theme-dinky
+theme: jekyll-theme-hacker
 
 gems:
   - jekyll-mentions

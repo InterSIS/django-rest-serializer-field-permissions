@@ -11,11 +11,11 @@ Add field-by-field permission classes to your serializer fields that look like t
 ```python
   class PersonSerializer(FieldPermissionSerializerMixin, LookupModelSerializer):
 
-      // Only allow authenticated users to retrieve family and given names
+      # Only allow authenticated users to retrieve family and given names
       family_names = serializers.CharField(permission_classes=(IsAuthenticated(), ))
       given_names = serializers.CharField(permission_classes=(IsAuthenticated(), ))
       
-      // Allow all users to retrieve nick name
+      # Allow all users to retrieve nick name
       nick_name = serializers.CharField(permission_classes=(AllowAll(), ))
 
 ```
@@ -35,7 +35,7 @@ Install this module into Django by adding it to your `INSTALLED_APPS`.
 ```python
   INSTALLED_APPS = (
   ...
-  'rest_framework_serializer_field_permissions',
+      'rest_framework_serializer_field_permissions',
   ...
   )
 ```

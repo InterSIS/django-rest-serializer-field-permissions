@@ -8,14 +8,14 @@ django-rest-serializer-field-permissions
 
 Add field-by-field permission classes to your serializer fields that look like this:
 
-```
+```python
   class PersonSerializer(FieldPermissionSerializerMixin, LookupModelSerializer):
 
-      // Only allow authenticated users to retrieve family and given names
+      # Only allow authenticated users to retrieve family and given names
       family_names = serializers.CharField(permission_classes=(IsAuthenticated(), ))
       given_names = serializers.CharField(permission_classes=(IsAuthenticated(), ))
       
-      // Allow all users to retrieve nick name
+      # Allow all users to retrieve nick name
       nick_name = serializers.CharField(permission_classes=(AllowAll(), ))
 
 ```
@@ -32,10 +32,10 @@ Install this module into your environment:
 ```
 
 Install this module into Django by adding it to your `INSTALLED_APPS`.
-```
+```python
   INSTALLED_APPS = (
   ...
-  'rest_framework_serializer_field_permissions',
+      'rest_framework_serializer_field_permissions',
   ...
   )
 ```
@@ -44,7 +44,7 @@ Now you can add retrieve permissions to individual fields. You must import the m
 
 For example, modify the root `urls.py` you created in the DRF tutorial with the following code:
 
-```
+```python
 from django.conf.urls import url, include
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
@@ -83,7 +83,7 @@ Now, only authenticated users will be able to retrieve your users' emails. You c
 
 Alternately, you could have restricted retrieve access to the `username` field with the code:
 
-```
+```python
     username = fields.CharField(permission_classes=(IsAuthenticated(), ))
 ```
 
@@ -100,7 +100,7 @@ Install the module in your Python distribution or virtualenv:
 
 Add the application to your `INSTALLED_APPS`:
 
-```
+```python
   INSTALLED_APPS = (
   ...
   'rest_framework_serializer_field_permissions',
@@ -114,7 +114,7 @@ In your serializers, mix `FieldPermissionSerializerMixin` into your serializer c
 provided by `rest_framework_serializer_field_permissions.fields` accept `permission_classes` which operate in typical
 DRF fashion:
 
-```
+```python
   from rest_framework import serializers
   
   from rest_framework_serializer_field_permissions import fields

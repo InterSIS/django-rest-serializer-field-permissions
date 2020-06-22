@@ -28,7 +28,7 @@ This example builds on the example Django REST Framework API in the [DRF 3.8 doc
 Install this module into your environment:
 
 ```
-  $ pip install django-rest-serializer-field-permissions
+  $ pip install django-rest-serializer-field-permissions==2.0a1
 ```
 
 Install this module into Django by adding it to your `INSTALLED_APPS`.

@@ -2,6 +2,8 @@
 Drop in serializer mixins.
 """
 
+from rest_framework_serializer_field_permissions.middleware import RequestMiddleware
+
 
 class FieldPermissionSerializerMixin(object):
     """
@@ -20,7 +22,7 @@ class FieldPermissionSerializerMixin(object):
         :return: a set of permission-scrubbed fields
         """
         ret = super(FieldPermissionSerializerMixin, self).fields
-        request = self._context["request"]
+        request = RequestMiddleware.request
 
         forbidden_field_names = [
             field_name for field_name, field in ret.items() if hasattr(field, 'check_permission') and (not field.check_permission(request))

@@ -34,11 +34,21 @@ Install this module into your environment:
 Install this module into Django by adding it to your `INSTALLED_APPS`.
 ```python
   INSTALLED_APPS = (
-  ...
+  # ...
       'rest_framework_serializer_field_permissions',
-  ...
+  # ...
   )
 ```
+
+Then add the included middleware to any position in your `MIDDLEWARE`.
+```python
+  MIDDLEWARE = [
+  # ...
+      'rest_framework_serializer_field_permissions.middleware.RequestMiddleware' 
+  # ...
+  ]
+```
+
 
 Now you can add retrieve permissions to individual fields. You must import the modules and classes shown below, mix `FieldPermissionSerializerMixin` as the **leftmost** parent to your serializers, and then define your fields using the provided drop-in field classes.
 

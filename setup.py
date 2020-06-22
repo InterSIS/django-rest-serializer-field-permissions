@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-rest-serializer-field-permissions',
-    version='1.0.0',
+    version='1.0.1',
     packages=['rest_framework_serializer_field_permissions'],
     include_package_data=True,
     license='GNU General Public License v3 (GPLv3)',
@@ -19,8 +19,8 @@ setup(
     author='The Intersis Foundation',
     author_email='dev@intersis.org',
     install_requires=[
-        'django>=1.6',
-        'djangorestframework>=3.0.0, <=3.8',
+        'django>=2.1',
+        'djangorestframework~=3.0',
     ],
     classifiers=[
         'Development Status :: 3 - Alpha',
@@ -30,9 +30,7 @@ setup(
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],

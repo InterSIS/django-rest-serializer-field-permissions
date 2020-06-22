@@ -2,24 +2,16 @@ language: python
 
 matrix:
   include:
-    - python: 2.7
-      env:
-        - TOX_ENV=py27-django1.11-drf3.8
     - python: 3.7
       dist: xenial
       sudo: true
       env:
-        - TOX_ENV=py37-django1.11-drf3.8
+        - TOX_ENV=py37-django3.0-drf3.11
     - python: 3.7
       dist: xenial
       sudo: true
       env:
-        - TOX_ENV=py37-django2.1-drf3.8
-    - python: 3.7
-      dist: xenial
-      sudo: true
-      env:
-        - TOX_ENV=coveralls
+        - TOX_ENV=py37-django2.2-drf3.11
   fast_finish: true
 
 install:

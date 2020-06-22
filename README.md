@@ -144,11 +144,13 @@ permissions against the request, and scrubs from the return any fields which fai
 Compatibility
 -------------
 
-* Django Rest Framework 3.8
-* Django 1.11, 2.1 
-* Python 2.7, 3.7
+This package is tested for compatibility against the following software versions:
 
-See tox.ini for specific minor versions tested.
+* Django Rest Framework 3.11
+* Django 2.1, 3.0
+* Python 3.7
+
+This package may incidentally be compatible with other similar versions of the above software. See tox.ini for specific minor versions tested.
 
 Additional Requirements
 -----------------------

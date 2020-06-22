@@ -20,7 +20,7 @@ setup(
     author_email='dev@intersis.org',
     install_requires=[
         'django>=2.1',
-        'djangorestframework>=3.0.0, <=3.11',
+        'djangorestframework~=3.0',
     ],
     classifiers=[
         'Development Status :: 3 - Alpha',
@@ -30,9 +30,7 @@ setup(
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],

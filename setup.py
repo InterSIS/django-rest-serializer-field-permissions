@@ -9,14 +9,14 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-rest-serializer-field-permissions',
-    version='1.0.1',
+    version='1.0.2',
     packages=['rest_framework_serializer_field_permissions'],
     include_package_data=True,
     license='GNU General Public License v3 (GPLv3)',
     description='Field-by-field serializer permissions for Django Rest Framework.',
     long_description=README,
     long_description_content_type='text/markdown',
-    url='https://intersis.org/',
+    url='https://github.com/InterSIS/django-rest-serializer-field-permissions/',
     author='The Intersis Foundation',
     author_email='dev@intersis.org',
     install_requires=[

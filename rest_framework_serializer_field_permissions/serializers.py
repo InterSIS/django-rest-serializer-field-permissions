@@ -24,6 +24,11 @@ class FieldPermissionSerializerMixin(object):
         ret = super(FieldPermissionSerializerMixin, self).fields
         request = RequestMiddleware.request
 
+        if request is None:
+            raise RuntimeError(
+                "Request object not available. Did you forget to add the rest_framework_serializer_field_permissions "
+                "middleware? See https://github.com/InterSIS/django-rest-serializer-field-permissions ")
+
         forbidden_field_names = [
             field_name for field_name, field in ret.items() if hasattr(field, 'check_permission') and (not field.check_permission(request))
         ]

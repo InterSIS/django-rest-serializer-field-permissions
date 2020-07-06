@@ -44,7 +44,7 @@ Then add the included middleware to any position in your `MIDDLEWARE`.
 ```python
   MIDDLEWARE = [
   # ...
-      'rest_framework_serializer_field_permissions.middleware.RequestMiddleware' 
+      'rest_framework_serializer_field_permissions.middleware.RequestMiddleware',
   # ...
   ]
 ```

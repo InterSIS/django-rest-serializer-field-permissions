@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-rest-serializer-field-permissions',
-    version='2.0a1',
+    version='3.0a1',
     packages=['rest_framework_serializer_field_permissions'],
     include_package_data=True,
     license='GNU General Public License v3 (GPLv3)',

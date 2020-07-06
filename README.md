@@ -23,22 +23,31 @@ Add field-by-field permission classes to your serializer fields that look like t
 Complete Tutorial
 ----------------
 
-This example builds on the example Django REST Framework API in the [DRF 3.8 documentation](https://github.com/encode/django-rest-framework/tree/2c992f09dada037904efe076029cd7355118d37f#installation). Please make sure that you have completed that tutorial before beginning this one.
+This example builds on the example Django REST Framework API in the [DRF 3.9 documentation](https://github.com/encode/django-rest-framework/tree/3.9.x#example). Please make sure that you have completed that tutorial before beginning this one.
 
 Install this module into your environment:
 
 ```
-  $ pip install django-rest-serializer-field-permissions
+  $ pip install django-rest-serializer-field-permissions~=3.0
 ```
 
 Install this module into Django by adding it to your `INSTALLED_APPS`.
 ```python
   INSTALLED_APPS = (
-  ...
+  # ...
       'rest_framework_serializer_field_permissions',
-  ...
+  # ...
   )
 ```
+
+Then add the included middleware to the end of your `MIDDLEWARE`.
+```python
+  MIDDLEWARE = [
+  # ...
+      'rest_framework_serializer_field_permissions.middleware.RequestMiddleware',
+  ]
+```
+
 
 Now you can add retrieve permissions to individual fields. You must import the modules and classes shown below, mix `FieldPermissionSerializerMixin` as the **leftmost** parent to your serializers, and then define your fields using the provided drop-in field classes.
 
@@ -147,7 +156,7 @@ Compatibility
 This package is tested for compatibility against the following software versions:
 
 * Django Rest Framework 3.11
-* Django 2.1, 3.0
+* Django 2.2, 3.0
 * Python 3.7
 
 This package may incidentally be compatible with other similar versions of the above software. See tox.ini for specific minor versions tested.

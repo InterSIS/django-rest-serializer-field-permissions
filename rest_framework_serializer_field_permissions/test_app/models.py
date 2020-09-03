@@ -4,6 +4,7 @@ from django.db import models
 class Album(models.Model):
     album_name = models.TextField()
     artist = models.TextField()
+    diary = models.TextField()
 
 
 class Track(models.Model):

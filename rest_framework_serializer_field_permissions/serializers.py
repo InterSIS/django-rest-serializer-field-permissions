@@ -15,6 +15,14 @@ class FieldPermissionSerializerMixin(object):
             given_names = fields.CharField(permission_classes=(IsAuthenticated(), ))
     """
 
+    def __init__(self, *args, **kwargs):
+        super(FieldPermissionSerializerMixin, self).__init__(*args, **kwargs)
+        self.current_instance = None
+
+    def to_representation(self, instance):
+        self.current_instance = instance
+        return super(FieldPermissionSerializerMixin, self).to_representation(instance)
+
     @property
     def fields(self):
         """
@@ -23,6 +31,7 @@ class FieldPermissionSerializerMixin(object):
         """
         ret = super(FieldPermissionSerializerMixin, self).fields
         request = RequestMiddleware.request
+        instance = self.current_instance
 
         if request is None:
             raise RuntimeError(
@@ -30,7 +39,7 @@ class FieldPermissionSerializerMixin(object):
                 "middleware? See https://github.com/InterSIS/django-rest-serializer-field-permissions ")
 
         forbidden_field_names = [
-            field_name for field_name, field in ret.items() if hasattr(field, 'check_permission') and (not field.check_permission(request))
+            field_name for field_name, field in ret.items() if hasattr(field, 'check_permission') and (not field.check_permission(request, instance))
         ]
 
         for field_name in forbidden_field_names:

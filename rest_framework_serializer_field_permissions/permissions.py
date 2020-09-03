@@ -25,6 +25,14 @@ class BaseFieldPermission(object):
         """
         return True
 
+    # pylint: disable=no-self-use
+    def has_object_permission(self, request, obj):
+        """
+        Return true if permission is granted, return false if permission is
+        denied.
+        """
+        return True
+
 
 class AllowAny(BaseFieldPermission):
     """
@@ -41,6 +49,9 @@ class AllowNone(BaseFieldPermission):
     """
 
     def has_permission(self, request):
+        return False
+
+    def has_object_permission(self, request, obj):
         return False
 
 

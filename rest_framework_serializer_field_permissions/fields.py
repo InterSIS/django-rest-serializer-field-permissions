@@ -26,12 +26,13 @@ class PermissionMixin(object):
         super(PermissionMixin, self).__init__(*args, **kwargs)
         self.permission_classes = permission_classes
 
-    def check_permission(self, request):
+    def check_permission(self, request, obj):
         """
         Check this field's permissions to determine whether or not it may be
         shown.
         """
-        return all((permission.has_permission(request) for permission in self.permission_classes))
+        return all((permission.has_permission(request) and permission.has_object_permission(request, obj)
+                    for permission in self.permission_classes))
 
 
 # TODO: docstring

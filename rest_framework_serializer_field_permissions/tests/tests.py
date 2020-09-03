@@ -167,3 +167,12 @@ class ObjectPermissionTests(TestCase):
         self.request.user = AnonymousUser()
         album_serializer = self.get_album_serializer(diary)(instance=self.album, context={'request': self.request})
         self.assertFalse('diary' in album_serializer.data)
+
+        album_2 = Album.objects.create(album_name='Other Album Name',
+                                       diary='I have a crush on "Album Artist"',
+                                       artist='Other Album Artist')
+
+        self.request.user = self.user
+        album_serializer = self.get_album_serializer(diary)(many=True, instance=[self.album, album_2], context={'request': self.request})
+        self.assertTrue('diary' in album_serializer.data[0])
+        self.assertFalse('diary' in album_serializer.data[1])

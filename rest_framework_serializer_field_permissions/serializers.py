@@ -2,8 +2,6 @@
 Drop in serializer mixins.
 """
 
-from rest_framework_serializer_field_permissions.middleware import RequestMiddleware
-
 
 class FieldPermissionSerializerMixin(object):
     """
@@ -22,7 +20,7 @@ class FieldPermissionSerializerMixin(object):
         :return: a set of permission-scrubbed fields
         """
         ret = super(FieldPermissionSerializerMixin, self).fields
-        request = RequestMiddleware.request
+        request = self.context['request']
 
         if request is None:
             raise RuntimeError(

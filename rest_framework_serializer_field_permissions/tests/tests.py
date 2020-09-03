@@ -7,7 +7,6 @@ from rest_framework import serializers
 from rest_framework_serializer_field_permissions.permissions import AllowAny, AllowNone, IsAuthenticated
 from rest_framework_serializer_field_permissions.fields import BooleanField, SerializerPermissionMixin
 from rest_framework_serializer_field_permissions.serializers import FieldPermissionSerializerMixin
-from rest_framework_serializer_field_permissions.middleware import RequestMiddleware
 from test_app.models import Album, Track
 
 
@@ -93,8 +92,6 @@ class SerializerFieldTests(TestCase):
                              order=1,
                              title='Public Service Announcement',
                              duration=245)
-
-        RequestMiddleware.request = {}  # Provide the request middleware with a dummy request object
 
     def get_album_serializer(self, _tracks):
         class AlbumSerializer(FieldPermissionSerializerMixin, serializers.ModelSerializer):

@@ -3,9 +3,10 @@ from argparse import Namespace
 from django.test import TestCase
 
 from rest_framework import serializers
+from rest_framework.relations import StringRelatedField
 
 from rest_framework_serializer_field_permissions.permissions import AllowAny, AllowNone, IsAuthenticated
-from rest_framework_serializer_field_permissions.fields import BooleanField, SerializerPermissionMixin
+from rest_framework_serializer_field_permissions.fields import BooleanField, SerializerPermissionMixin, RelatedFieldPermissionMixin
 from rest_framework_serializer_field_permissions.serializers import FieldPermissionSerializerMixin
 from rest_framework_serializer_field_permissions.middleware import RequestMiddleware
 from test_app.models import Album, Track
@@ -124,6 +125,56 @@ class SerializerFieldTests(TestCase):
 
     def test_many_true_serializer_field_removed(self):
         tracks = TrackSerializer(permission_classes=(AllowNone(),), many=True)
+
+        album_serializer = self.get_album_serializer(tracks)(instance=self.album, context={'request': {}})
+
+        self.assertFalse('tracks' in album_serializer.data)
+
+
+class PermissionStringRelatedField(RelatedFieldPermissionMixin, StringRelatedField):
+    pass
+
+
+class RelatedFieldTests(TestCase):
+    def setUp(self):
+        self.album = Album.objects.create(album_name='Album Name',
+                                          artist='Album Artist')
+
+        Track.objects.create(album=self.album,
+                             order=1,
+                             title='Public Service Announcement',
+                             duration=245)
+
+        RequestMiddleware.request = {}  # Provide the request middleware with a dummy request object
+
+    def get_album_serializer(self, _tracks):
+        class AlbumSerializer(FieldPermissionSerializerMixin, serializers.ModelSerializer):
+            tracks = _tracks
+
+            class Meta:
+                model = Album
+                fields = ('album_name', 'artist', 'tracks')
+
+        return AlbumSerializer
+
+    def test_many_false_serializer_field(self):
+        field = PermissionStringRelatedField(permission_classes=(AllowNone(),))
+        self.assertFalse(field.check_permission({}))
+
+    def test_many_true_serializer_field(self):
+        field = PermissionStringRelatedField(permission_classes=(AllowNone(),), many=True)
+
+        self.assertFalse(field.check_permission({}))
+
+    def test_many_false_serializer_field_removed(self):
+        tracks = PermissionStringRelatedField(permission_classes=(AllowNone(),))
+
+        album_serializer = self.get_album_serializer(tracks)(instance=self.album, context={'request': {}})
+
+        self.assertFalse('tracks' in album_serializer.data)
+
+    def test_many_true_serializer_field_removed(self):
+        tracks = PermissionStringRelatedField(permission_classes=(AllowNone(),), many=True)
 
         album_serializer = self.get_album_serializer(tracks)(instance=self.album, context={'request': {}})
 

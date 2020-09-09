@@ -14,6 +14,7 @@ import inspect
 
 from rest_framework import fields
 from rest_framework.serializers import LIST_SERIALIZER_KWARGS, ListSerializer
+from rest_framework.relations import MANY_RELATION_KWARGS, ManyRelatedField
 
 
 class PermissionMixin(object):
@@ -69,6 +70,22 @@ class SerializerPermissionMixin(PermissionMixin):
             if key in LIST_SERIALIZER_KWARGS
         ]))
         return SerializerPermissionMixin.PermissionListSerializer(*args, **list_kwargs)
+
+
+class RelatedFieldPermissionMixin(PermissionMixin):
+    class PermissionManyRelatedField(ManyRelatedField):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.permission_classes = self.child_relation.permission_classes
+            self.check_permission = self.child_relation.check_permission
+
+    @classmethod
+    def many_init(cls, *args, **kwargs):
+        list_kwargs = {'child_relation': cls(*args, **kwargs)}
+        for key in kwargs:
+            if key in MANY_RELATION_KWARGS:
+                list_kwargs[key] = kwargs[key]
+        return RelatedFieldPermissionMixin.PermissionManyRelatedField(**list_kwargs)
 
 
 # pylint: disable=missing-docstring

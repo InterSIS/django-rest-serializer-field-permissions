@@ -20,7 +20,7 @@ class FieldPermissionSerializerMixin(object):
         :return: a set of permission-scrubbed fields
         """
         ret = super(FieldPermissionSerializerMixin, self).fields
-        request = self.context['request']
+        request = self.context.get('request', None)
 
         if request is None:
             raise RuntimeError(

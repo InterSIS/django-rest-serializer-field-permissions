@@ -49,19 +49,19 @@ class FieldTests(TestCase):
 
     def test_single_permission_checking(self):
         field = BooleanField(permission_classes=(AllowAny(),))
-        self.assertTrue(field.check_permission({}, None))
+        self.assertTrue(field.check_permission({}))
 
         field = BooleanField(permission_classes=(AllowNone(),))
-        self.assertFalse(field.check_permission({}, None))
+        self.assertFalse(field.check_permission({}))
 
         field = BooleanField(permission_classes=(IsAuthenticated(),))
         authenticated_user = Namespace(is_authenticated=True)
         authenticated_request = Namespace(user=authenticated_user)
-        self.assertTrue(field.check_permission(authenticated_request, None))
+        self.assertTrue(field.check_permission(authenticated_request))
 
         unauthenticated_user = Namespace(is_authenticated=False)
         unauthenticated_request = Namespace(user=unauthenticated_user)
-        self.assertFalse(field.check_permission(unauthenticated_request, None))
+        self.assertFalse(field.check_permission(unauthenticated_request))
 
     def test_multiple_permission_checking(self):
         """
@@ -69,16 +69,16 @@ class FieldTests(TestCase):
         """
 
         field = BooleanField(permission_classes=(AllowAny(), AllowNone()))
-        self.assertFalse(field.check_permission({}, None))
+        self.assertFalse(field.check_permission({}))
 
         field = BooleanField(permission_classes=(AllowNone(), AllowAny()))
-        self.assertFalse(field.check_permission({}, None))
+        self.assertFalse(field.check_permission({}))
 
         field = BooleanField(permission_classes=(AllowNone(), AllowNone()))
-        self.assertFalse(field.check_permission({}, None))
+        self.assertFalse(field.check_permission({}))
 
         field = BooleanField(permission_classes=(AllowAny(), AllowAny()))
-        self.assertTrue(field.check_permission({}, None))
+        self.assertTrue(field.check_permission({}))
 
 
 class TrackSerializer(SerializerPermissionMixin, serializers.ModelSerializer):
@@ -111,12 +111,12 @@ class SerializerFieldTests(TestCase):
 
     def test_many_false_serializer_field(self):
         field = TrackSerializer(permission_classes=(AllowNone(),))
-        self.assertFalse(field.check_permission({}, None))
+        self.assertFalse(field.check_permission({}))
 
     def test_many_true_serializer_field(self):
         field = TrackSerializer(permission_classes=(AllowNone(),), many=True)
 
-        self.assertFalse(field.check_permission({}, None))
+        self.assertFalse(field.check_permission({}))
 
     def test_many_false_serializer_field_removed(self):
         tracks = TrackSerializer(permission_classes=(AllowNone(),))
@@ -176,3 +176,8 @@ class ObjectPermissionTests(TestCase):
         album_serializer = self.get_album_serializer(diary)(many=True, instance=[self.album, album_2], context={'request': self.request})
         self.assertTrue('diary' in album_serializer.data[0])
         self.assertFalse('diary' in album_serializer.data[1])
+
+    def test_serializer_creates_dont_fail(self):
+        diary = CharField(permission_classes=(self.IsArtist(),))
+        album_serializer = self.get_album_serializer(diary)(context={'request': self.request})
+        album_serializer.create({'album_name': f'{self.album.album_name} 2', 'diary': self.album.diary, 'artist': self.album.artist})

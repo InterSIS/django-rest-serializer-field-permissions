@@ -2,6 +2,7 @@
 Drop in serializer mixins.
 """
 
+from django.db.models import Model
 from rest_framework_serializer_field_permissions.middleware import RequestMiddleware
 
 
@@ -20,7 +21,8 @@ class FieldPermissionSerializerMixin(object):
         self.current_instance = None
 
     def to_representation(self, instance):
-        self.current_instance = instance
+        if isinstance(instance, Model):
+            self.current_instance = instance
         return super(FieldPermissionSerializerMixin, self).to_representation(instance)
 
     @property

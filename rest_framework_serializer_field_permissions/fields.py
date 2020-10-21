@@ -182,3 +182,8 @@ class ModelField(PermissionMixin, fields.ModelField):
 # pylint: disable=abstract-method
 class SerializerMethodField(PermissionMixin, fields.SerializerMethodField):
     pass
+
+
+# pylint: disable=missing-docstring
+class JSONField(PermissionMixin, fields.JSONField):
+    pass

@@ -1,14 +1,13 @@
 from argparse import Namespace
 
-from django.contrib.auth.models import AnonymousUser, User
+from django.contrib.auth.models import User, AnonymousUser
 from django.test import TestCase, RequestFactory
 
 from rest_framework import serializers
 
 from rest_framework_serializer_field_permissions.permissions import AllowAny, AllowNone, IsAuthenticated, BaseFieldPermission
-from rest_framework_serializer_field_permissions.fields import BooleanField, SerializerPermissionMixin, CharField
+from rest_framework_serializer_field_permissions.fields import BooleanField, IntegerField, SerializerPermissionMixin, CharField
 from rest_framework_serializer_field_permissions.serializers import FieldPermissionSerializerMixin
-from rest_framework_serializer_field_permissions.middleware import RequestMiddleware
 from test_app.models import Album, Track
 
 
@@ -97,8 +96,6 @@ class SerializerFieldTests(TestCase):
                              title='Public Service Announcement',
                              duration=245)
 
-        RequestMiddleware.request = {}  # Provide the request middleware with a dummy request object
-
     def get_album_serializer(self, _tracks):
         class AlbumSerializer(FieldPermissionSerializerMixin, serializers.ModelSerializer):
             tracks = _tracks
@@ -181,3 +178,43 @@ class ObjectPermissionTests(TestCase):
         diary = CharField(permission_classes=(self.IsArtist(),))
         album_serializer = self.get_album_serializer(diary)(context={'request': self.request})
         album_serializer.create({'album_name': f'{self.album.album_name} 2', 'diary': self.album.diary, 'artist': self.album.artist})
+
+        
+class TrackPermissionSerializer(SerializerPermissionMixin, FieldPermissionSerializerMixin, serializers.ModelSerializer):
+    duration = IntegerField(permission_classes=(IsAuthenticated(), ))
+
+    class Meta:
+        model = Track
+        fields = ('order', 'title', 'duration')
+
+
+class AlbumNestedSerializer(FieldPermissionSerializerMixin, serializers.ModelSerializer):
+    tracks = TrackPermissionSerializer(many=True)
+
+    class Meta:
+        model = Album
+        fields = ('album_name', 'artist', 'tracks')
+
+
+class NestedSerializerTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='Album Artist', email='jacob@jacob.com', password='top_secret')
+        self.album = Album.objects.create(album_name='Album Name',
+                                          artist='Album Artist')
+
+        Track.objects.create(album=self.album,
+                             order=1,
+                             title='Public Service Announcement',
+                             duration=245)
+
+        self.request = RequestFactory().get(f'/album/{self.album.album_name}')
+        self.request.user = self.user
+
+    def test_request_context_passed_to_nested_serializer(self):
+        album_serializer = AlbumNestedSerializer(instance=self.album, context={'request': self.request})
+        self.assertTrue(album_serializer.fields['tracks'].context['request'] == self.request)
+        self.assertTrue('duration' in album_serializer.data['tracks'][0])
+
+        self.request.user = AnonymousUser()
+        album_serializer = AlbumNestedSerializer(instance=self.album, context={'request': self.request})
+        self.assertFalse('duration' in album_serializer.data['tracks'][0])

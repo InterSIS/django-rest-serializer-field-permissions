@@ -3,7 +3,6 @@ Drop in serializer mixins.
 """
 
 from django.db.models import Model
-from rest_framework_serializer_field_permissions.middleware import RequestMiddleware
 
 
 class FieldPermissionSerializerMixin(object):
@@ -32,7 +31,7 @@ class FieldPermissionSerializerMixin(object):
         :return: a set of permission-scrubbed fields
         """
         ret = super(FieldPermissionSerializerMixin, self).fields
-        request = RequestMiddleware.request
+        request = self.context.get('request', None)
         instance = self.current_instance
 
         if request is None:

@@ -20,6 +20,19 @@ Add field-by-field permission classes to your serializer fields that look like t
 
 ```
 
+Getting Involved, New Features, Etc.
+------------------------------------
+
+This project is in *maintenance mode*. I can offer the following support/upgrades:
+  * Ongoing compatibility with DRF version 3.
+  * Ongoing compatibility with Django version 3.
+  * If future major versions of Django and DRF are roughly compatible with this plugin, then I hope to offer ongoing support for those as well.
+  * Adding new fields to the library's drop-in replacements as Django adds new fields.
+
+Several people have offered really great ideas for how to improve this library. Unfortunately, I don't use this library regularly myself and it takes me a day or two to spin myself back up on it to the point where I can safely and responsibly consider the impacts of proposed changes. And at this time, I'm unable to fulfill that responsibility.
+
+If you have a change/issue that falls under one of the bullet points above, please feel free to raise it in the issue tracker!
+
 Complete Tutorial
 ----------------
 
@@ -158,20 +171,3 @@ Additional Requirements
 
 None
 
-Todo
-----
-
-* Integration tests
-
-Getting Involved
-----------------
-
-Feel free to open pull requests or issues. [GitHub](https://github.com/InterSIS/django-rest-serializer-field-permissions) is the canonical location of this project.
-
-Here's the general sequence of events for contribution:
-
-1. Open an issue in the [issue tracker](https://github.com/InterSIS/django-rest-serializer-field-permissions/issues/).
-2. In any order:
-  * Submit a pull request with a **failing** test that demonstrates the issue/feature.
-  * Get acknowledgement/concurrence.
-3. Submit pull request that passes your test in (2). Include documentation, if appropriate.

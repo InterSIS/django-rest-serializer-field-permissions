@@ -20,7 +20,7 @@ setup(
     author='The Intersis Foundation',
     author_email='dev@intersis.org',
     install_requires=[
-        'django>=2.1',
+        'django>=2.2',
         'djangorestframework~=3.0',
     ],
     classifiers=[
@@ -31,6 +31,7 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.9',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],

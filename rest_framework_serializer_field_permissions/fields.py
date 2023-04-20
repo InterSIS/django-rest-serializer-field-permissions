@@ -77,11 +77,6 @@ class BooleanField(PermissionMixin, fields.BooleanField):
 
 
 # pylint: disable=missing-docstring
-class NullBooleanField(PermissionMixin, fields.NullBooleanField):
-    pass
-
-
-# pylint: disable=missing-docstring
 class CharField(PermissionMixin, fields.CharField):
     pass
 

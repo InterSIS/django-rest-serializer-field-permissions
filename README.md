@@ -160,8 +160,8 @@ Compatibility
 
 This package is tested for compatibility against the following software versions:
 
-* Django Rest Framework 3.11
-* Django 2.2, 3.0
+* Django Rest Framework 3.14.0
+* Django 3.2, 4.2
 * Python 3.7
 
 This package may incidentally be compatible with other similar versions of the above software. See tox.ini for specific minor versions tested.

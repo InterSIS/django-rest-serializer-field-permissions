@@ -20,7 +20,7 @@ setup(
     author='The Intersis Foundation',
     author_email='dev@intersis.org',
     install_requires=[
-        'django>=2.1',
+        'django>=3.0',
         'djangorestframework~=3.0',
     ],
     classifiers=[

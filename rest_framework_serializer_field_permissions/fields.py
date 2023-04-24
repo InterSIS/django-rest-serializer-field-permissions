@@ -80,7 +80,7 @@ try:
     # pylint: disable=missing-docstring
     class NullBooleanField(PermissionMixin, fields.NullBooleanField):
         pass
-except ImportError:
+except AttributeError:
     pass
 
 

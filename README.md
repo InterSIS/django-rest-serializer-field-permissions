@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/InterSIS/django-rest-serializer-field-permissions.svg?branch=master)](https://travis-ci.org/InterSIS/django-rest-serializer-field-permissions)
 [![Code Climate](https://codeclimate.com/github/InterSIS/django-rest-serializer-field-permissions/badges/gpa.svg)](https://codeclimate.com/github/InterSIS/django-rest-serializer-field-permissions)
 [![Coverage Status](https://coveralls.io/repos/InterSIS/django-rest-serializer-field-permissions/badge.svg?branch=master&service=github)](https://coveralls.io/github/InterSIS/django-rest-serializer-field-permissions?branch=master)
 [![PyPI version](https://badge.fury.io/py/django-rest-serializer-field-permissions.svg)](http://badge.fury.io/py/django-rest-serializer-field-permissions)

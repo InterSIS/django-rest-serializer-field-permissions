@@ -76,8 +76,11 @@ class BooleanField(PermissionMixin, fields.BooleanField):
     pass
 
 
-# pylint: disable=missing-docstring
-class NullBooleanField(PermissionMixin, fields.NullBooleanField):
+try:
+    # pylint: disable=missing-docstring
+    class NullBooleanField(PermissionMixin, fields.NullBooleanField):
+        pass
+except AttributeError:
     pass
 
 
